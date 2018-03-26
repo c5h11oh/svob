@@ -1,9 +1,9 @@
 <?php
   //DB params
   define('DB_HOST', 'localhost');
-  define('DB_USER', 'root');
-  define('DB_PASS', '123456');
-  define('DB_NAME', 'shareposts');
+  define('DB_USER', 'sv');
+  define('DB_PASS', 'l4cqU3IoBAah3Gz1');
+  define('DB_NAME', 'sv');
 
 
   //Define APPROOT

@@ -1,5 +1,5 @@
 <?php 
-   class Post{
+   class Word{
       private $db;
       
       public function __construct(){
