@@ -10,7 +10,7 @@
   define('APPROOT', dirname(dirname(__FILE__)));
   
   //Define URLROOT
-  define('URLROOT', 'http://localhost/shareposts');
+  define('URLROOT', 'http://localhost/~chwen/sp');
 
   //Define SITENAME
   define('SITENAME', 'The SharePosts');

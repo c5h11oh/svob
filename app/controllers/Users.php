@@ -5,13 +5,7 @@
         }
         
         public function index(){
-            $data = [
-                'email' => '',
-                'password' => '',
-                'email_err' => '',
-                'password_err' => '',
-            ];
-            $this->view('users/login', $data);
+            redirect('users/login');
         }
         public function register(){
             //Check for posts
@@ -163,7 +157,7 @@
             unset($_SESSION['user_email']);
             unset($_SESSION['user_name']);
             session_destroy();
-            redirect('users/login');
+            redirect('');
         }
 
         public function createUserSession($user){

@@ -113,8 +113,8 @@
             'title' => $post->title,
             'body' => $post->body
           ];
+          $this->view('posts/edit', $data);
         }
-        $this->view('posts/edit', $data);
     }
 
     public function show($id)
