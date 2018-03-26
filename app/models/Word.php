@@ -1,71 +1,102 @@
-<?php 
-   class Word{
-      private $db;
-      
-      public function __construct(){
-         $this->db = new Database();
-      }
+<?php
 
-      public function getPosts(){
-         $this->db->query('SELECT *,
-                           posts.id as postId,
-                           user_id as userId,
-                           posts.created_at as postCreated,
-                           users.created_at as userCreated
-                           FROM posts
-                           INNER JOIN users
-                           ON posts.user_id = users.id
-                           ORDER BY posts.created_at DESC
-                           ');
+class Word
+{
+    private $db;
 
-         $results = $this->db->resultSet();
-         return $results;
-      }
+    public function __construct()
+    {
+        $this->db = new Database();
+    }
 
-      public function getPostById($id){
-         $this->db->query('SELECT * FROM posts WHERE id = :id ');
-         $this->db->bind(':id', $id);
-         $result = $this->db->single();
-         return $result;
-      }
+    public function getWordByString($searchWord)
+    {
+        $this->db->query('SELECT * from word WHERE word LIKE :searchWord ');
+        $this->db->bind(':searchWord', '%'.$searchWord.'%');
+        $result = $this->db->resultSet();
 
-      public function addPost($data){
-         $this->db->query('INSERT INTO posts (title, user_id, body) VALUES (:title, :user_id, :body)');
-         //Bind values
-         $this->db->bind(':title', $data['title']);
-         $this->db->bind(':user_id', $data['user_id']);
-         $this->db->bind(':body', $data['body']);
-         //Execute
-         if($this->db->execute()){
+        return $result;
+    }
+
+    public function getWordById($id)
+    {
+        $this->db->query('SELECT * from word WHERE id = :id ');
+        $this->db->bind(':id', $id);
+        $result = $this->db->single();
+
+        return $result;
+    }
+
+    public function addWord($data)
+    {
+        $this->db->query('INSERT INTO word (type_id, word, meaning, form2, form3, form4, form5) VALUES (:type_id, :word, :meaning, :form2, :form3, :form4, form5)');
+        //Bind values
+        $this->db->bind(':type_id', $data['type_id']);
+        $this->db->bind(':word', $data['word']);
+        $this->db->bind(':meaning', $data['meaning']);
+        $this->db->bind(':form2', $data['form2']);
+        $this->db->bind(':form3', $data['form3']);
+        $this->db->bind(':form4', $data['form4']);
+        $this->db->bind(':form5', $data['form5']);
+        //Execute
+        if ($this->db->execute()) {
             return true;
-         }else{
+        } else {
             return false;
-         }
-      }
+        }
+    }
 
-      public function updatePost($data){
-         $this->db->query('UPDATE posts SET title = :title, body = :body WHERE id = :id');
-         //Bind values
-         $this->db->bind(':id', $data['id']);
-         $this->db->bind(':title', $data['title']);
-         $this->db->bind(':body', $data['body']);
-         //Execute
-         if($this->db->execute()){
+    public function editWord($data)
+    {
+        $this->db->query('UPDATE word SET type_id = :type_id, word = :word, meaning = :meaning, form2 = :form2, form3 = :form3, form4 = :form4, form5 = :form5 WHERE id = :id');
+        //Bind values
+        $this->db->bind(':type_id', $data['type_id']);
+        $this->db->bind(':word', $data['word']);
+        $this->db->bind(':meaning', $data['meaning']);
+        $this->db->bind(':form2', $data['form2']);
+        $this->db->bind(':form3', $data['form3']);
+        $this->db->bind(':form4', $data['form4']);
+        $this->db->bind(':form5', $data['form5']);
+        //Execute
+        if ($this->db->execute()) {
             return true;
-         }else{
+        } else {
             return false;
-         }
-      }
+        }
+    }
 
-      public function deletePost($id){
-         $this->db->query('DELETE FROM posts WHERE id = :id');
-         //Bind values
-         $this->db->bind(':id', $id);
-         //Execute
-         if($this->db->execute()){
+    public function deleteWord($id)
+    {
+        $flag = false;
+        $this->db->query('DELETE FROM tag_word_pair WHERE word_id = :id');
+        //Bind values
+        $this->db->bind(':id', $id);
+        //Execute
+        if ($this->db->execute()) {
+            $flag = true;
+        } else {
+            die("Can't delete the word-tag pair");
+        }
+
+        $this->db->query('DELETE FROM word WHERE id = :id');
+        //Bind values
+        $this->db->bind(':id', $id);
+        //Execute
+        if ($this->db->execute() && $flag) {
             return true;
-         }else{
+        } else {
             return false;
-         }
-      }
-   }
+        }
+    }
+
+    public function editSearchInfo($id)
+    {
+        $this->db->query('UPDATE word SET search_count = search_count+1 , last_searched_at = NOW() WHERE id = :id');
+        //Execute
+        if ($this->db->execute()) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+}
