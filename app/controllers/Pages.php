@@ -4,24 +4,53 @@ class Pages extends Controller
 {
     public function __construct()
     {
-     
+        $this->wordModel = $this->model('Word');
+        //$this->tagModel = $this->model('Tag');
     }
+
     public function index()
     {
-        if(isLoggedIn()){
-            redirect('posts');
-        }
-        $data = [
-            'title' => 'SharePosts',
-            'description' => 'Simple social network built on PHP MVC framework.'
-        ];
-        $this->view('pages/index', $data);
+        redirect('pages/search');
     }
+
+    public function search()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            //Sanitize the post
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+            $data = [
+                'string' => trim($_POST['string']),
+                'string_err' => '',
+            ];
+
+            //Validate data
+            if (empty($data['string'])) {
+                $data['string_err'] = 'Please enter something to start the search.';
+            }
+
+            //Make sure no errors
+            if (empty($data['string_err'])) {
+                //Validated
+                if ($this->wordModel->addPost($data)) {
+                    flash('post_message', 'Post Added!');
+                    redirect('posts');
+                } else {
+                    die('Something went wrong.');
+                }
+            } else {
+                //Return to add post page with data and error information
+                $this->view('pages/search', $data);
+            }
+        } else {
+            $this->view('pages/search');
+        }
+    }
+
     public function about()
     {
         $data = [
             'title' => 'About Us',
-            'description' => 'Apps that shares posts with other users.'
+            'description' => 'Apps that shares posts with other users.',
         ];
         $this->view('pages/about', $data);
     }
