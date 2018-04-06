@@ -14,8 +14,8 @@ class Pages extends Controller
     public function about()
     {
         $data = [
-            'title' => 'About Us',
-            'description' => 'Apps that shares posts with other users.',
+            'title' => SITENAME,
+            'description' => '製作一個可以新增、編輯、刪除以及建立標籤的瑞典語單字本。',
         ];
         $this->view('pages/about', $data);
     }

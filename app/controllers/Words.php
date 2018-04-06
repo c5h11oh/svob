@@ -51,12 +51,19 @@ class Words extends Controller
         $count = 0;
         $searchResult = $this->wordModel->getWordByString($string);
         if ($searchResult) {
-            $count = count($searchResult);
+            $data = [
+                'count' => count($searchResult),
+                'searchResult' => $searchResult,
+            ];
+            $this->view('words/show', $data);
+        } else {
+            redirect('words/add/'.$string);
         }
-        $data = [
-            'count' => $count,
-            'searchResult' => $searchResult,
-        ];
-        $this->view('words/show', $data);
+    }
+
+    public function add($string)
+    {
+        $data;
+        $this->view('words/add', $data);
     }
 }
