@@ -16,10 +16,12 @@ class Words extends Controller
     public function search()
     {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-            //Sanitize the post
+            //Sanitize input
             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            //Initialize data
             $data = [
-                'string' => trim($_POST['string']),
+                'string' => $_POST['string'],
                 'string_err' => '',
             ];
 
@@ -28,29 +30,33 @@ class Words extends Controller
                 $data['string_err'] = 'Please enter something to start the search.';
             }
 
-            //Make sure no errors
             if (empty($data['string_err'])) {
-                //Validated
-                if ($searchResult = $this->wordModel->getWordByString($data['string'])) {
-                    $this->view('word/show/'.$data['string'], $searchResult);
-                } else {
-                    die('Something went wrong.');
-                }
+                //go search
+                redirect('words/show/'.$_POST['string']);
             } else {
-                //Return to add post page with data and error information
+                //Return to search page with data and error information
                 $this->view('words/search', $data);
             }
         } else {
-            $this->view('words/search');
+            $data = [
+                'string' => '',
+                'string_err' => '',
+            ];
+            $this->view('words/search', $data);
         }
     }
 
-    public function about()
+    public function show($string)
     {
+        $count = 0;
+        $searchResult = $this->wordModel->getWordByString($string);
+        if ($searchResult) {
+            $count = count($searchResult);
+        }
         $data = [
-            'title' => 'About Us',
-            'description' => 'Apps that shares posts with other users.',
+            'count' => $count,
+            'searchResult' => $searchResult,
         ];
-        $this->view('pages/about', $data);
+        $this->view('words/show', $data);
     }
 }
