@@ -9,7 +9,7 @@
   define('APPROOT', dirname(dirname(__FILE__)));
 
   //Define URLROOT
-  define('URLROOT', 'http://localhost/~chwen/sp');
+  define('URLROOT', 'http://localhost/~chwen/svob');
 
   //Define SITENAME
   define('SITENAME', 'Svenska ordbok');
