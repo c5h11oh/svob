@@ -11,8 +11,9 @@ class Word
 
     public function getWordByString($searchWord)
     {
-        $this->db->query('SELECT * from word WHERE word LIKE :searchWord ');
+        $this->db->query('SELECT * from word WHERE word LIKE :searchWord OR form2 LIKE :searchWord OR form3 LIKE :searchWord OR form4 LIKE :searchWord OR form5 LIKE :searchWord');
         $this->db->bind(':searchWord', '%'.$searchWord.'%');
+        $this->db->execute();
         $result = $this->db->resultSet();
 
         return $result;
@@ -22,6 +23,7 @@ class Word
     {
         $this->db->query('SELECT * from word WHERE id = :id ');
         $this->db->bind(':id', $id);
+        $this->db->execute();
         $result = $this->db->single();
 
         return $result;
@@ -39,6 +41,7 @@ class Word
         $this->db->bind(':form4', $data['form4']);
         $this->db->bind(':form5', $data['form5']);
         //Execute
+
         if ($this->db->execute()) {
             return true;
         } else {
@@ -92,6 +95,8 @@ class Word
     public function editSearchInfo($id)
     {
         $this->db->query('UPDATE word SET search_count = search_count+1 , last_searched_at = NOW() WHERE id = :id');
+        //Bind values
+        $this->db->bind(':id', $id);
         //Execute
         if ($this->db->execute()) {
             return true;
