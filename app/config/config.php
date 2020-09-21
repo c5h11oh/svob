@@ -8,7 +8,7 @@
 
   //Define APPROOT
   define('APPROOT', dirname(dirname(__FILE__)));
-  
+
   //Define URLROOT
   define('URLROOT', 'http://localhost');
 
@@ -16,4 +16,4 @@
   define('SITENAME', 'Hello');
 
   //App Version
-  define('APPVERSION', '1.0.0');
+  define('APPVERSION', '0.0.5');

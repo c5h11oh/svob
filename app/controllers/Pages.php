@@ -4,24 +4,18 @@ class Pages extends Controller
 {
     public function __construct()
     {
-     
     }
+
     public function index()
     {
-        if(isLoggedIn()){
-            redirect('posts');
-        }
-        $data = [
-            'title' => 'SharePosts',
-            'description' => 'Simple social network built on PHP MVC framework.'
-        ];
-        $this->view('pages/index', $data);
+        redirect('words/search');
     }
+
     public function about()
     {
         $data = [
-            'title' => 'About Us',
-            'description' => 'Apps that shares posts with other users.'
+            'title' => SITENAME,
+            'description' => '製作一個可以新增、編輯、刪除以及建立標籤的瑞典語單字本。',
         ];
         $this->view('pages/about', $data);
     }
