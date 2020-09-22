@@ -1,9 +1,11 @@
 <?php
-    //Load Config
+    // Load Config
     require_once 'config/config.php';
-    //Load helpers
+    // Load helpers
     require_once 'helpers/url_helper.php';
     require_once 'helpers/session_helper.php';
+    // Default exception handler
+    require_once 'helpers/exception_helper.php';
     
     //Load Libraries (No need anymore because the autoload below)
     // require_once 'libraries/Controller.php';

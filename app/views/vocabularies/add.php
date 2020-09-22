@@ -12,7 +12,7 @@
 <div>
     <form action="<?php echo URLROOT; ?>/vocabularies/add" method="post">
         <div class="form-group">
-            <label for="word">單字： </label>
+            <label for="word">單字:</label>
             <input type="text" name="word" class="
                 <?php echo (empty($data['word_err'])) ? '' : 'is-invalid'; ?>
             " value="<?php echo $data['word']; ?>">
@@ -22,23 +22,28 @@
         </div>
         <div class="form-group">
             <label for="user_id">使用者(temp): </label>
-            <input type="text" name="user_id" class="" value="
-                <?php echo $data['user_id']?>
-            ">
+            <input type="text" name="user_id" class="" value="<?php echo $data['user_id']?>">
             <span class="invalid-feedback">
                 <?php echo $data['type_id_err']; ?>
             </span>
         </div>
         <div class="form-group">
-            <label for="meaning">意思： </label>
-            <textarea name="meaning" rows="2" cols="40" class="<?php echo (empty($data['meaning_err'])) ? '' : 'is-invalid'; ?>"><?php echo $data['meaning']; ?></textarea>
+            <label for="meaning">意思: </label>
+            <textarea name="meaning" rows="2" cols="40" class=""><?php echo $data['meaning']; ?></textarea>
             <span class="invalid-feedback">
                 <?php echo $data['meaning_err']; ?>
             </span>
         </div>
         <div class="form-group">
-            <label for="form2">form2： </label>
-            <input type="text" name="form2" value="<?php echo $data['form2']; ?>">
+            <label for="example">例句: </label>
+            <textarea name="example" rows="2" cols="40" class=""><?php echo $data['example']; ?></textarea>
+            <span class="invalid-feedback">
+                <?php echo $data['example_err']; ?>
+            </span>
+        </div>
+        <div class="form-group">
+            <label for="link">辭典連結: </label>
+            <input type="text" name="link" value="<?php echo $data['link']; ?>">
         </div>
         <input type="submit" value="Add word" class="btn btn-success">
     </form>

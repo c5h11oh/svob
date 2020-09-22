@@ -15,7 +15,7 @@ class Database
     private $dbname = DB_NAME;
 
     private $dbh;
-    private $stmt;
+    public $stmt;
     private $error;
 
     public function __construct(){
@@ -64,9 +64,8 @@ class Database
     //Execute the prepared statement
     public function execute()
     {
-        $this->stmt->execute();
-
-        return $this->stmt->errInfo();
+        return $this->stmt->execute();
+        // return $this->stmt->errorInfo();
     }
 
     //Get result set as array of objects
