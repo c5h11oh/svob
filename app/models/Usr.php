@@ -24,6 +24,11 @@ class Usr{
         }else{return false;}
     }
 
+    public function hasRegistered($email){
+        if ($this->getUsrByEmail($email)) return true;
+        return false; 
+    }
+    
     private function getUsrByEmail($email){
         $this->db->query('SELECT * FROM usr WHERE email = :email');
         $this->db->bind(':email', $email, PDO::PARAM_STR);
@@ -31,7 +36,7 @@ class Usr{
         return $this->db->single();
     }
 
-    public function getUserById(int $id){
+    private function getUserById(int $id){
         $this->db->query('SELECT * FROM usr WHERE id = :id');
         $this->db->bind(':id', $id, PDO::PARAM_INT);
         $this->db->execute();
