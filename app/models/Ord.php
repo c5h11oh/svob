@@ -6,19 +6,31 @@ class Ord{
         $this->db = new Database();
     }
 
-    public function wordExist($word, $user_id = null){
-        if($user_id){
-            $this->db->query('SELECT * FROM ord WHERE word = :word AND user_id = :uid');
-            $this->db->bind(':word', $word);
+    public function wordExist($word, $mode = VOC_CONTAINS){
+        return !empty($this->wordLookup($word, $mode));
+    }
+    
+    public function wordLookup($word, $mode = VOC_CONTAINS){
+        $user_id = $_SESSION['user_id'];
+        
+        $modestr = 'LIKE :word';
+        if($mode == VOC_EXACT)
+            $modestr = '= :word ';
+        
+        if($user_id){    
+            $this->db->query('SELECT * FROM ord WHERE word ' . $modestr . ' AND user_id = :uid');
             $this->db->bind(':uid', $user_id);
-        }else{
-            $this->db->query('SELECT * FROM ord WHERE word = :word');
-            $this->db->bind(':word', $word);
+        }else{ 
+            $this->db->query('SELECT * FROM ord WHERE word ' . $modestr);
         }
+        if($mode == VOC_EXACT)
+            $this->db->bind(':word', $word);
+        else
+            $this->db->bind(':word', '%'.$word.'%');
 
         $err = $this->db->execute();
         $result = $this->db->resultSet();
-        return !empty($result);
+        return $result;
     }
 
     public function add($data){

@@ -8,7 +8,8 @@ class Pages extends Controller
 
     public function index()
     {
-        redirect('pages/about');
+        if(isset($_SESSION['user_id'])) redirect('vocabularies/index');
+        redirect('users/login');
     }
 
     public function about()

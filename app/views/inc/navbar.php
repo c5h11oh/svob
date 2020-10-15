@@ -16,6 +16,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="<?php echo URLROOT; ?>/pages/about">About</a>
                 </li>
+                <?php if(isset($_SESSION['user_id'])) : ?>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo URLROOT; ?>/vocabularies/list">Word List</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="<?php echo URLROOT; ?>/vocabularies/add">Add vocabulary</a>
+                </li>
+                <?php endif; ?>
             </ul>
 
             <ul class="navbar-nav ml-auto">

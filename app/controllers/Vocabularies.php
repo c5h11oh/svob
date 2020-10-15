@@ -7,6 +7,25 @@ class Vocabularies extends Controller{
     }
 
     public function index(){
+        redirect('vocabularies/search');
+    }
+
+    public function search(){
+        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+            $result = $this->ordModel->wordLookup($_POST['word'], $_POST['search_mode']);
+            if($result)
+                $this->view('vocabularies/result', $result);
+            else{
+                flash('word-message', 'Oops! There is no vocabulary found. Try add a new one, or use \'pattern search\'?', 'alert alert-warning');
+                $this->view('vocabularies/search');
+            }
+        }
+        else{ // HTML GET
+            $this->view('vocabularies/search');
+        }
+    }
+
+    public function list(){
         redirect('vocabularies/add');
     }
 
@@ -64,7 +83,7 @@ class Vocabularies extends Controller{
             if($valid){
                 $this->success = $this->ordModel->add($data);
                 if($this->success){
-                    flash('word_message', 'New word added!');
+                    flash('word-message', 'New word added!');
                     redirect('vocabularies/show/');
                 }
                 else{

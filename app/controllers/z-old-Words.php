@@ -108,7 +108,7 @@ class Words extends Controller
             if (empty($data['type_id_err']) && empty($data['word_err']) && empty($data['meaning_err'])) {
                 //Validated
                 if ($this->wordModel->addWord($data)) {
-                    flash('word_message', 'New word added!');
+                    flash('word-message', 'New word added!');
                     redirect('words/show/'.$data['word']);
                 } else {
                     die('Something went wrong.');
